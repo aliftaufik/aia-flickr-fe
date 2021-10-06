@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Carousel from "./components/Carousel";
 import { getImageList } from "./service/api";
 
 function App() {
@@ -9,16 +10,12 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-blue-600 text-white">
+    <div className="text-white">
       <header>
         <h1>Flickr Feeds</h1>
       </header>
 
-      <div>
-        {imageList.map((image) => (
-          <img src={image.image} alt="Feeds"></img>
-        ))}
-      </div>
+      <Carousel imageList={imageList}></Carousel>
     </div>
   );
 }
