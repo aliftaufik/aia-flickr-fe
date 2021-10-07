@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import Carousel from "./components/Carousel";
+import Tags from "./components/Tags";
 import { getImageList } from "./service/api";
 
 function App() {
   const [lastUpdate, setLastUpdate] = useState("");
   const [imageList, setImageList] = useState([]);
+  const [tagList, setTagList] = useState([]);
 
   useEffect(() => {
     getImageList().then(({ lastUpdate, images }) => {
@@ -23,8 +25,8 @@ function App() {
   }, []);
 
   return (
-    <div className="h-screen">
-      <header className="text-center pt-6">
+    <div className="min-h-screen py-6">
+      <header className="text-center">
         <h1 className="text-xl font-bold">Flickr Feeds</h1>
 
         <p>
@@ -39,6 +41,12 @@ function App() {
         imageList={imageList}
         className="mt-2 max-w-screen-lg mx-auto"
       ></Carousel>
+
+      <Tags
+        tagList={tagList}
+        onTagListChanged={setTagList}
+        className="mt-6"
+      ></Tags>
     </div>
   );
 }
