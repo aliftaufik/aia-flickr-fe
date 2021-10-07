@@ -8,21 +8,26 @@ function App() {
   const [imageList, setImageList] = useState([]);
   const [tagList, setTagList] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    getImageList().then(({ lastUpdate, images }) => {
-      setImageList(images);
-      if (lastUpdate) {
-        const formattedDate = new Intl.DateTimeFormat("en", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }).format(new Date(lastUpdate));
-        setLastUpdate(formattedDate);
-      } else setLastUpdate("");
-    });
-  }, []);
+    setLoading(true);
+    getImageList(tagList)
+      .then(({ lastUpdate, images }) => {
+        setImageList(images);
+        if (lastUpdate) {
+          const formattedDate = new Intl.DateTimeFormat("en", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(new Date(lastUpdate));
+          setLastUpdate(formattedDate);
+        } else setLastUpdate("");
+      })
+      .finally(() => setLoading(false));
+  }, [tagList]);
 
   return (
     <div className="min-h-screen py-6">
@@ -35,16 +40,20 @@ function App() {
         </p>
       </header>
 
-      <p className="text-center text-sm mt-8">Last Update: {lastUpdate}</p>
+      <p className="text-center text-sm mt-8">
+        Feeds Last Update: {lastUpdate}
+      </p>
 
       <Carousel
         imageList={imageList}
+        loading={loading}
         className="mt-2 max-w-screen-lg mx-auto"
       ></Carousel>
 
       <Tags
         tagList={tagList}
         onTagListChanged={setTagList}
+        loading={loading}
         className="mt-6"
       ></Tags>
     </div>

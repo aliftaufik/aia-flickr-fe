@@ -4,12 +4,14 @@ export default function Tags({
   className,
   tagList = [],
   onTagListChanged,
+  loading,
   ...props
 }) {
   const [inputText, setInputText] = useState("");
 
   const handleAddTag = useCallback(
     (e) => {
+      if (loading) return;
       if (e.type === "keyup" && e.key !== "Enter") return;
       if (!inputText) return;
 
@@ -18,16 +20,17 @@ export default function Tags({
 
       setInputText("");
     },
-    [inputText, tagList, onTagListChanged]
+    [loading, inputText, tagList, onTagListChanged]
   );
 
   const handleRemoveTag = useCallback(
     (index) => {
+      if (loading) return;
       const newTagList = [...tagList];
       newTagList.splice(index, 1);
       onTagListChanged(newTagList);
     },
-    [tagList, onTagListChanged]
+    [loading, tagList, onTagListChanged]
   );
 
   return (
@@ -62,7 +65,7 @@ export default function Tags({
             onClick={handleAddTag}
             className="rounded px-4 py-2 ring-1 ring-blue-700 transition-colors hover:bg-blue-700 hover:text-white"
           >
-            Add Tag
+            {loading ? "Loading" : "Add Tag"}
           </button>
         </div>
       </div>

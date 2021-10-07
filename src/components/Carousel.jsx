@@ -9,7 +9,12 @@ import "swiper/components/zoom/zoom.min.css";
 
 SwiperCore.use([Navigation, Pagination, Zoom]);
 
-export default function Carousel({ imageList = [], className, ...props }) {
+export default function Carousel({
+  imageList = [],
+  className,
+  loading,
+  ...props
+}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swiperController, setSwiperController] = useState(null);
 
@@ -51,19 +56,27 @@ export default function Carousel({ imageList = [], className, ...props }) {
         onSwiper={setSwiperController}
         onRealIndexChange={handleSlideChange}
       >
-        {imageList.map((image, index) => (
-          <SwiperSlide key={index}>
-            <div className="swiper-zoom-container">
-              <img
-                className="h-full mx-auto mb-12"
-                src={image.imageUrl}
-                alt={image.title}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-              ></img>
+        {loading ? (
+          <SwiperSlide>
+            <div className="w-full h-full flex justify-center items-center">
+              <p className="text-2xl">Loading</p>
             </div>
           </SwiperSlide>
-        ))}
+        ) : (
+          imageList.map((image, index) => (
+            <SwiperSlide key={index}>
+              <div className="swiper-zoom-container">
+                <img
+                  className="h-full mx-auto mb-12"
+                  src={image.imageUrl}
+                  alt={image.title}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                ></img>
+              </div>
+            </SwiperSlide>
+          ))
+        )}
       </Swiper>
       <div className="absolute z-10 inset-x-0 bottom-8 flex justify-center items-center">
         <a
