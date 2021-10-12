@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "alert-cedar-328109"
+  },
+  "targets": {
+    "alert-cedar-328109": {
+      "hosting": {
+        "aia": [
+          "aia-flickr"
+        ]
+      }
+    }
+  }
+}

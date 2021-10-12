@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react/cjs/react.development";
+import { useCallback, useState } from "react";
 
 export default function Tags({
   className,
